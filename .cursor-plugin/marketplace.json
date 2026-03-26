@@ -14,6 +14,11 @@
       "name": "yapi-plugin",
       "source": "yapi-plugin",
       "description": "Use YApi from Cursor through the local yapi CLI."
+    },
+    {
+      "name": "zentao-plugin",
+      "source": "zentao-plugin",
+      "description": "Use ZenTao from Cursor through the local zentao CLI."
     }
   ]
 }

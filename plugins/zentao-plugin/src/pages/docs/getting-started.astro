@@ -1,0 +1,41 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+---
+
+<SiteLayout title="Getting Started | ZenTao" description="Get the ZenTao Cursor plugin running with setup, login, and first query steps.">
+  <article class="doc-article">
+    <p class="eyebrow">Getting Started</p>
+    <h1>First run</h1>
+    <p>
+      ZenTao assumes you already want to use the upstream <code>zentao</code> CLI. It does not introduce a second client
+      or a second credential store.
+    </p>
+
+    <h2>Requirements</h2>
+    <ul>
+      <li><code>node</code> is installed locally</li>
+      <li><code>npm</code> is installed locally</li>
+      <li>Your environment allows <code>npm install -g</code></li>
+    </ul>
+
+    <h2>Recommended order</h2>
+    <ol>
+      <li>Run the <strong>Setup ZenTao</strong> command.</li>
+      <li>If the wrapper reports <code>NOT_LOGGED_IN</code>, run <strong>Login ZenTao</strong>.</li>
+      <li>Re-run setup or <strong>Who Am I</strong> to confirm the current account.</li>
+      <li>Move on to products, bug lookup, or self-test workflows.</li>
+    </ol>
+
+    <h2>What setup actually does</h2>
+    <p>
+      Setup checks whether <code>zentao</code> exists on PATH. If it does not, the wrapper installs
+      <code>@leeguoo/zentao-mcp</code> globally through npm, then checks login state with <code>zentao whoami</code>.
+    </p>
+
+    <h2>Login note</h2>
+    <p>
+      ZenTao base URLs usually include <code>/zentao</code>. If login returns a 404 or HTML page, check the saved base
+      URL first.
+    </p>
+  </article>
+</SiteLayout>

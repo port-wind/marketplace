@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">ZenTao Plugin Logo</title>
+  <desc id="desc">Dark square with a stylized Z and a bug badge.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#101827" />
+      <stop offset="100%" stop-color="#162032" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#ef4444" />
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="24" fill="url(#bg)" />
+  <path d="M34 34h56v12L52 82h38v12H34V82l38-36H34z" fill="url(#accent)" />
+  <circle cx="93" cy="35" r="13" fill="#22c55e" />
+  <path d="M88 35h10M93 30v10" stroke="#052e16" stroke-width="3" stroke-linecap="round" />
+</svg>

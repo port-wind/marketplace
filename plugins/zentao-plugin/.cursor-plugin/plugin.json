@@ -1,0 +1,14 @@
+{
+  "name": "zentao-plugin",
+  "displayName": "ZenTao",
+  "version": "0.1.0",
+  "description": "Use ZenTao from Cursor through the local zentao CLI. Install it automatically, reuse existing login state, inspect products and bugs, and run self-test workflows.",
+  "author": {
+    "name": "leeguooooo"
+  },
+  "license": "MIT",
+  "keywords": ["cursor", "plugin", "zentao", "chandao", "bugs", "bug-tracker", "developer-tools"],
+  "logo": "assets/logo.svg",
+  "skills": "skills",
+  "commands": "commands"
+}
