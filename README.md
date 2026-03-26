@@ -6,6 +6,7 @@ Cursor plugin marketplace repository for `port-wind`.
 
 - `yapi-plugin`
 - `zentao-plugin`
+- `cunzhi-plugin`
 
 ## Structure
 
@@ -13,6 +14,7 @@ Cursor plugin marketplace repository for `port-wind`.
 - `.claude-plugin/marketplace.json`: Claude Code marketplace metadata and plugin registry
 - `plugins/yapi-plugin/`: published plugin source
 - `plugins/zentao-plugin/`: published plugin source
+- `plugins/cunzhi-plugin/`: published plugin source for Cursor only
 - `scripts/validate-template.mjs`: repository validator adapted from the Cursor plugin template
 
 ## Validation

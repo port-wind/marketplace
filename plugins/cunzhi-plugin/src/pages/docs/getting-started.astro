@@ -1,0 +1,41 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+---
+
+<SiteLayout title="Getting Started | Cunzhi" description="Get the Cunzhi Cursor plugin running with install, setup, and settings handoff steps.">
+  <article class="doc-article">
+    <p class="eyebrow">Getting Started</p>
+    <h1>First run</h1>
+    <p>
+      Cunzhi assumes you want to keep using the upstream project. The plugin does not replace the official binaries,
+      settings UI, or MCP workflow.
+    </p>
+
+    <h2>Requirements</h2>
+    <ul>
+      <li><code>node</code> is installed locally</li>
+      <li><code>寸止</code> is available on PATH</li>
+      <li><code>等一下</code> is available on PATH</li>
+    </ul>
+
+    <h2>Recommended order</h2>
+    <ol>
+      <li>Run the <strong>Setup Cunzhi</strong> command.</li>
+      <li>If setup reports <code>CLI_MISSING</code>, follow the <strong>Install Cunzhi</strong> guidance.</li>
+      <li>Run <strong>Check Cunzhi Status</strong> to verify binary paths and versions.</li>
+      <li>Run <strong>Open Cunzhi Settings</strong> and copy the generated reference prompt.</li>
+    </ol>
+
+    <h2>Install paths</h2>
+    <p>
+      On macOS, the preferred install path is <code>brew tap imhuso/cunzhi &amp;&amp; brew install cunzhi</code>. On
+      other platforms, download the release archive from GitHub Releases and add both binaries to PATH.
+    </p>
+
+    <h2>Why there is no auto-install</h2>
+    <p>
+      The plugin intentionally keeps installation in the upstream project because Cunzhi is distributed as platform
+      binaries, not as a single npm CLI package.
+    </p>
+  </article>
+</SiteLayout>

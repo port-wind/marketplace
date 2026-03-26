@@ -19,6 +19,11 @@
       "name": "zentao-plugin",
       "source": "zentao-plugin",
       "description": "Use ZenTao from Cursor through the local zentao CLI."
+    },
+    {
+      "name": "cunzhi-plugin",
+      "source": "cunzhi-plugin",
+      "description": "Bring 寸止 into Cursor for setup checks, settings launch, and MCP prompt workflow guidance."
     }
   ]
 }

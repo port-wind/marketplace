@@ -1,0 +1,14 @@
+{
+  "name": "cunzhi-plugin",
+  "displayName": "Cunzhi",
+  "version": "0.1.0",
+  "description": "Bring 寸止 into Cursor. Verify the local binaries, open settings, and keep the upstream MCP plus prompt workflow within reach.",
+  "author": {
+    "name": "leeguooooo"
+  },
+  "license": "MIT",
+  "keywords": ["cursor", "plugin", "cunzhi", "mcp", "prompt", "workflow", "developer-tools"],
+  "logo": "assets/logo.svg",
+  "skills": "skills",
+  "commands": "commands"
+}

@@ -1,0 +1,131 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+const workflows = [
+  {
+    title: 'Verify the local binaries',
+    description: 'Check whether 寸止 and 等一下 are on PATH and surface install guidance when they are not.',
+  },
+  {
+    title: 'Jump into settings from Cursor',
+    description: 'Launch the upstream 等一下 settings window so you can manage MCP tools and copy the generated reference prompt.',
+  },
+  {
+    title: 'Keep the upstream setup flow intact',
+    description: 'The plugin does not replace Cunzhi. It keeps the official Homebrew, release, and prompt workflow reachable from inside Cursor.',
+  },
+];
+
+const commands = [
+  'Setup Cunzhi',
+  'Install Cunzhi',
+  'Check Cunzhi Status',
+  'Open Cunzhi Settings',
+  'Show Cunzhi MCP Config',
+  'Show Cunzhi Prompt Workflow',
+];
+
+const setupExample = `$ node scripts/setup-cunzhi.mjs
+{
+  "ok": false,
+  "code": "CLI_MISSING",
+  "missing": ["寸止", "等一下"],
+  "nextStep": "macOS: brew tap imhuso/cunzhi && brew install cunzhi ..."
+}`;
+const basePath = import.meta.env.BASE_URL;
+const withBase = (path = '') => `${basePath.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+---
+
+<SiteLayout title="Cunzhi Plugin for Cursor" description="A GitHub Pages home for the Cunzhi Cursor plugin. Learn how it brings 寸止 into Cursor without changing the upstream workflow.">
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Cursor plugin + GitHub Pages</p>
+      <h1>Bring 寸止 into Cursor without rebuilding the product.</h1>
+      <p class="hero-lead">
+        Cunzhi keeps the upstream <code>寸止</code> and <code>等一下</code> workflow within reach. It verifies local
+        binaries, surfaces install guidance, opens the settings window, and keeps MCP plus prompt setup close to the editor.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href={withBase('docs/getting-started/')}>Start with setup</a>
+        <a class="button button-secondary" href="https://github.com/leeguooooo/cunzhi-plugin">View repository</a>
+      </div>
+      <div class="hero-meta">
+        <span>Uses upstream binaries</span>
+        <span>Works with 寸止 + 等一下</span>
+        <span>No auto-install in v1</span>
+      </div>
+    </div>
+    <div class="hero-panel">
+      <div class="terminal-card">
+        <div class="terminal-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <pre><code>{setupExample}</code></pre>
+      </div>
+      <div class="badge-grid">
+        <div class="mini-card">
+          <strong>Install guidance</strong>
+          <span>Points to the Homebrew path on macOS and GitHub Releases everywhere else.</span>
+        </div>
+        <div class="mini-card">
+          <strong>Settings handoff</strong>
+          <span>Opens 等一下 so you can manage MCP tools and copy the generated reference prompt.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <p class="eyebrow">Why this plugin</p>
+      <h2>Keep the upstream experience, remove the context switching.</h2>
+    </div>
+    <div class="card-grid">
+      {workflows.map((workflow) => (
+        <article class="feature-card">
+          <h3>{workflow.title}</h3>
+          <p>{workflow.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section split-section">
+    <div>
+      <p class="eyebrow">How it works</p>
+      <h2>A narrow first release with clear guardrails.</h2>
+      <ol class="timeline">
+        <li>Check whether <code>寸止</code> and <code>等一下</code> are on PATH.</li>
+        <li>When they are missing, return install guidance instead of forcing a nonstandard install.</li>
+        <li>Expose settings, MCP config, and prompt workflow help as Cursor skills and commands.</li>
+        <li>Keep the upstream Cunzhi UI and MCP flow intact.</li>
+      </ol>
+    </div>
+    <div class="surface-card">
+      <p class="surface-title">Primary workflows</p>
+      <ul class="tag-list">
+        {commands.map((command) => (
+          <li>{command}</li>
+        ))}
+      </ul>
+      <a class="text-link" href={withBase('docs/commands/')}>Browse command details</a>
+    </div>
+  </section>
+
+  <section class="section callout">
+    <div>
+      <p class="eyebrow">Docs site starts here</p>
+      <h2>This homepage is the front door. The docs area is already live.</h2>
+      <p>
+        The current Pages release keeps the top level focused on the installation handoff, the settings workflow, and
+        the MCP prompt path. The docs area goes deeper without requiring a separate site.
+      </p>
+    </div>
+    <div class="callout-actions">
+      <a class="button button-primary" href={withBase('docs/')}>Open docs</a>
+      <a class="button button-secondary" href={withBase('docs/development/')}>Developer notes</a>
+    </div>
+  </section>
+</SiteLayout>

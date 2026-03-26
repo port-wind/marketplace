@@ -1,0 +1,43 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+const groups = [
+  {
+    title: 'Environment',
+    items: ['Setup Cunzhi', 'Install Cunzhi', 'Check Cunzhi Status'],
+  },
+  {
+    title: 'Settings and setup snippets',
+    items: ['Open Cunzhi Settings', 'Show Cunzhi MCP Config', 'Show Cunzhi Prompt Workflow'],
+  },
+];
+---
+
+<SiteLayout title="Commands | Cunzhi" description="Command surface for the Cunzhi Cursor plugin.">
+  <article class="doc-article">
+    <p class="eyebrow">Commands</p>
+    <h1>First release command set</h1>
+    <p>
+      The plugin keeps the command surface narrow on purpose. Every command either validates the local binaries or
+      helps the user move through the upstream Cunzhi setup flow without leaving Cursor.
+    </p>
+
+    {groups.map((group) => (
+      <section class="command-group">
+        <h2>{group.title}</h2>
+        <ul class="command-list">
+          {group.items.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    <h2>Wrapper behavior</h2>
+    <p>
+      Commands rely on <code>node scripts/ensure-cunzhi.mjs</code>, <code>node scripts/setup-cunzhi.mjs</code>, and
+      <code>node scripts/run-cunzhi.mjs</code> so missing binaries, install guidance, and settings launch behavior all
+      come back as stable JSON.
+    </p>
+  </article>
+</SiteLayout>

@@ -1,0 +1,43 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+const basePath = import.meta.env.BASE_URL;
+const withBase = (path = '') => `${basePath.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+
+const entries = [
+  {
+    href: withBase('docs/getting-started/'),
+    title: 'Getting Started',
+    description: 'Install the upstream binaries, verify status, and move into the settings workflow.',
+  },
+  {
+    href: withBase('docs/commands/'),
+    title: 'Commands',
+    description: 'See the first release command set for installation guidance, status checks, and MCP setup snippets.',
+  },
+  {
+    href: withBase('docs/development/'),
+    title: 'Development',
+    description: 'Run tests, validate the plugin manifest, and understand the local wrapper scripts.',
+  },
+];
+---
+
+<SiteLayout title="Cunzhi Plugin Docs" description="Documentation entry point for the Cunzhi Cursor plugin.">
+  <section class="docs-hero">
+    <p class="eyebrow">Documentation</p>
+    <h1>Start small now, grow into a full docs site later.</h1>
+    <p>
+      The first docs release covers installation handoff, command surfaces, and development notes. The structure stays
+      simple so the site can grow without changing its public entry point.
+    </p>
+  </section>
+
+  <section class="docs-grid">
+    {entries.map((entry) => (
+      <a class="docs-card" href={entry.href}>
+        <h2>{entry.title}</h2>
+        <p>{entry.description}</p>
+      </a>
+    ))}
+  </section>
+</SiteLayout>
