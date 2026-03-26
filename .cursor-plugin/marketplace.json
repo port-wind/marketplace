@@ -1,0 +1,19 @@
+{
+  "name": "port-wind-marketplace",
+  "owner": {
+    "name": "port-wind",
+    "email": "leeguooooo@gmail.com"
+  },
+  "metadata": {
+    "description": "Cursor plugins from port-wind",
+    "version": "0.1.0",
+    "pluginRoot": "plugins"
+  },
+  "plugins": [
+    {
+      "name": "yapi-plugin",
+      "source": "yapi-plugin",
+      "description": "Use YApi from Cursor through the local yapi CLI."
+    }
+  ]
+}
