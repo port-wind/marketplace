@@ -1,0 +1,29 @@
+{
+  "name": "port-wind-marketplace",
+  "owner": {
+    "name": "port-wind"
+  },
+  "metadata": {
+    "description": "Claude Code and Cursor plugins from port-wind."
+  },
+  "plugins": [
+    {
+      "name": "yapi-plugin",
+      "source": {
+        "source": "github",
+        "repo": "leeguooooo/yapi-plugin",
+        "ref": "main"
+      },
+      "description": "Use YApi from Claude Code through the local yapi CLI."
+    },
+    {
+      "name": "zentao-plugin",
+      "source": {
+        "source": "github",
+        "repo": "leeguooooo/zentao-plugin",
+        "ref": "main"
+      },
+      "description": "Use ZenTao from Claude Code through the local zentao CLI."
+    }
+  ]
+}
