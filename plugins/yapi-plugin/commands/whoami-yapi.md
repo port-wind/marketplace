@@ -5,7 +5,7 @@ description: Show the current YApi login identity from the local yapi CLI.
 
 # Who Am I
 
-1. Run `node scripts/run-yapi.mjs whoami`.
-2. Parse the returned JSON.
+1. Run `command -v yapi >/dev/null || npm install -g @leeguoo/yapi-mcp`.
+2. Run `yapi whoami`.
 3. If successful, summarize the current YApi identity.
-4. If the wrapper reports `NOT_LOGGED_IN`, tell the user to run `yapi login`.
+4. If the command indicates missing login, tell the user to run `yapi login`.

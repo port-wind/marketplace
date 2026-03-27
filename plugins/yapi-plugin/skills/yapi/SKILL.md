@@ -9,11 +9,14 @@ Use this skill when the task is clearly about YApi.
 
 ## Preferred execution path
 
-Always prefer the plugin wrapper scripts over calling `yapi` blindly:
+Do not call plugin-local `node scripts/...` files from the user's project. In Cursor, commands run from the user's current workspace, so relative plugin paths are unreliable.
 
-1. Use `node scripts/setup-yapi.mjs` when you need to verify the environment.
-2. Use `node scripts/run-yapi.mjs ...` for query and docs-sync operations.
-3. Only ask the user to run `yapi login` when setup or a command reports `NOT_LOGGED_IN`.
+Always use the real `yapi` CLI directly:
+
+1. Check whether `yapi` exists with `command -v yapi`.
+2. If `yapi` is missing and the user wants setup, install `@leeguoo/yapi-mcp` with `npm install -g @leeguoo/yapi-mcp`.
+3. Use direct `yapi ...` commands for query and docs-sync operations.
+4. Only ask the user to run `yapi login` when `whoami` or another command shows a login/config problem.
 
 ## What the plugin assumes
 
@@ -25,21 +28,23 @@ Always prefer the plugin wrapper scripts over calling `yapi` blindly:
 
 ### Setup and login
 
-- Verify YApi CLI availability with `node scripts/setup-yapi.mjs`
-- If setup reports `NOT_LOGGED_IN`, guide the user to run `yapi login`
+- Verify YApi CLI availability with `command -v yapi`
+- If missing, install with `npm install -g @leeguoo/yapi-mcp`
+- Check login state with `yapi whoami`
+- If login is missing, guide the user to run `yapi login`
 - Do not invent a second config format; always reuse `~/.yapi/config.toml`
 
 ### Query interfaces
 
-- Search interfaces: `node scripts/run-yapi.mjs search --q <keyword>`
-- Query by ID: `node scripts/run-yapi.mjs --path /api/interface/get --query id=<api_id>`
-- List category interfaces: `node scripts/run-yapi.mjs --path /api/interface/list_cat --query catid=<catid>`
-- Inspect login state: `node scripts/run-yapi.mjs whoami`
+- Search interfaces: `yapi search --q <keyword>`
+- Query by ID: `yapi --path /api/interface/get --query id=<api_id>`
+- List category interfaces: `yapi --path /api/interface/list_cat --query catid=<catid>`
+- Inspect login state: `yapi whoami`
 
 ### Docs sync
 
-- Bind docs: `node scripts/run-yapi.mjs docs-sync bind add --name <binding> --dir <path> --project-id <id> --catid <id>`
-- Run sync: `node scripts/run-yapi.mjs docs-sync --binding <binding>`
+- Bind docs: `yapi docs-sync bind add --name <binding> --dir <path> --project-id <id> --catid <id>`
+- Run sync: `yapi docs-sync --binding <binding>`
 
 ## URL detection
 
@@ -50,10 +55,10 @@ When the user shares a YApi URL:
    - `project_id` from `/project/<id>/...`
    - `api_id` from `/interface/api/<id>`
    - `catid` from `/interface/api/cat_<id>`
-3. Use the matching query command instead of manual browser steps
+3. Use the matching CLI command instead of manual browser steps
 
 ## Response expectations
 
 - Summarize method, path, headers, request schema, and response schema when interface data is returned
-- Surface wrapper JSON error codes directly when setup or execution fails
-- Include the next action when the wrapper returns `nextStep`
+- If a direct CLI command fails, surface the stderr and suggest the next step
+- Do not instruct the model to run plugin-relative files from the current workspace

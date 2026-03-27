@@ -9,11 +9,14 @@ Use this skill when the task is clearly about ZenTao or ChanDao.
 
 ## Preferred execution path
 
-Always prefer the plugin wrapper scripts over calling `zentao` blindly:
+Do not call plugin-local `node scripts/...` files from the user's project. In Cursor, commands run from the user's current workspace, so relative plugin paths are unreliable.
 
-1. Use `node scripts/setup-zentao.mjs` when you need to verify the environment.
-2. Use `node scripts/run-zentao.mjs ...` for query operations.
-3. Only ask the user to run `zentao login` when setup or a command reports `NOT_LOGGED_IN`.
+Always use the real `zentao` CLI directly:
+
+1. Check whether `zentao` exists with `command -v zentao`.
+2. If `zentao` is missing and the user wants setup, install `@leeguoo/zentao-mcp` with `npm install -g @leeguoo/zentao-mcp`.
+3. Use direct `zentao ...` commands for product and bug workflows.
+4. Only ask the user to run `zentao login` when `whoami` or another command shows a login/config problem.
 
 ## What the plugin assumes
 
@@ -26,22 +29,24 @@ Always prefer the plugin wrapper scripts over calling `zentao` blindly:
 
 ### Setup and login
 
-- Verify ZenTao CLI availability with `node scripts/setup-zentao.mjs`
-- If setup reports `NOT_LOGGED_IN`, guide the user to run `zentao login`
+- Verify ZenTao CLI availability with `command -v zentao`
+- If missing, install with `npm install -g @leeguoo/zentao-mcp`
+- Check login state with `zentao whoami`
+- If setup reports a login problem, guide the user to run `zentao login`
 - Do not invent a second config format; always reuse `~/.config/zentao/config.toml`
 
 ### Query products and bugs
 
-- Inspect login state: `node scripts/run-zentao.mjs whoami`
-- List products: `node scripts/run-zentao.mjs products list`
-- List bugs for a product: `node scripts/run-zentao.mjs bugs list --product <product_id>`
-- Fetch a bug by ID: `node scripts/run-zentao.mjs bug get --id <bug_id>`
-- List the current user's bugs: `node scripts/run-zentao.mjs bugs mine --status active --include-details`
-- Run a smoke test: `node scripts/run-zentao.mjs self-test`
+- Inspect login state: `zentao whoami`
+- List products: `zentao products list`
+- List bugs for a product: `zentao bugs list --product <product_id>`
+- Fetch a bug by ID: `zentao bug get --id <bug_id>`
+- List the current user's bugs: `zentao bugs mine --status active --include-details`
+- Run a smoke test: `zentao self-test`
 
 ## Response expectations
 
 - Summarize product or bug tables into readable bullets instead of pasting raw TSV unless the user asked for raw output
 - Mention the product ID or bug ID you used when the user asked for a specific item
-- Surface wrapper JSON error codes directly when setup or execution fails
-- Include the next action when the wrapper returns `nextStep`
+- If a direct CLI command fails, surface stderr and suggest the next step
+- Do not instruct the model to run plugin-relative files from the current workspace

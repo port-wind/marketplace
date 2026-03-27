@@ -5,8 +5,7 @@ description: Prepare the local YApi CLI and then run yapi login using the user's
 
 # Login YApi
 
-1. Run `node scripts/ensure-yapi.mjs`.
-2. If setup fails, stop and report the returned JSON.
-3. If setup succeeds, run `yapi login`.
-4. Tell the user that credentials are stored in `~/.yapi/config.toml`.
-5. Recommend running `node scripts/setup-yapi.mjs` after login to confirm the environment.
+1. Run `command -v yapi >/dev/null || npm install -g @leeguoo/yapi-mcp`.
+2. Run `yapi login`.
+3. Tell the user that credentials are stored in `~/.yapi/config.toml`.
+4. Recommend running `yapi whoami` after login to confirm the environment.

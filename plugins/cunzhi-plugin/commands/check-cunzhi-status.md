@@ -5,7 +5,13 @@ description: Inspect the installed 寸止 and 等一下 binaries and summarize t
 
 # Check Cunzhi Status
 
-1. Run `node scripts/run-cunzhi.mjs status`.
-2. Parse the returned JSON.
-3. If successful, summarize the binary paths and versions for `寸止` and `等一下`.
-4. If the wrapper reports `CLI_MISSING`, tell the user which binary is missing and include the returned install guidance.
+1. Run:
+   - `command -v 寸止`
+   - `command -v 等一下`
+2. If both exist, run:
+   - `寸止 --version`
+   - `等一下 --version`
+3. Summarize the binary paths and versions.
+4. If either binary is missing, include the install guidance:
+   - macOS: `brew tap imhuso/cunzhi && brew install cunzhi`
+   - other platforms: `https://github.com/imhuso/cunzhi/releases`

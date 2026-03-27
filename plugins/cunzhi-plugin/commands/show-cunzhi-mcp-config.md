@@ -5,7 +5,17 @@ description: Show the MCP client config snippet for the upstream 寸止 server.
 
 # Show Cunzhi MCP Config
 
-1. Run `node scripts/run-cunzhi.mjs mcp-config`.
-2. Parse the returned JSON.
-3. Present the `mcpServers` snippet exactly as returned.
-4. Remind the user that the generated reference prompt still comes from the `等一下` settings window.
+1. Do not execute plugin-local scripts.
+2. Present this MCP config snippet exactly:
+
+```json
+{
+  "mcpServers": {
+    "寸止": {
+      "command": "寸止"
+    }
+  }
+}
+```
+
+3. Remind the user that the generated reference prompt still comes from the `等一下` settings window.

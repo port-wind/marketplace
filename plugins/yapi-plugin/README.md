@@ -1,6 +1,6 @@
 # yapi-plugin
 
-Cursor plugin for YApi workflows inside Cursor.
+Cursor and Claude Code plugin for YApi workflows.
 
 It wraps the existing `yapi` CLI so you can use YApi without leaving the editor. The plugin checks whether `yapi` is installed, installs `@leeguoo/yapi-mcp` automatically when needed, reuses your existing `~/.yapi/config.toml`, and exposes the common query and `docs-sync` flows as Cursor skills and commands.
 
@@ -22,6 +22,7 @@ It wraps the existing `yapi` CLI so you can use YApi without leaving the editor.
 ## Layout
 
 - `.cursor-plugin/plugin.json`: marketplace metadata
+- `.claude-plugin/plugin.json`: Claude Code plugin metadata
 - `skills/yapi/SKILL.md`: YApi routing and URL handling guidance
 - `commands/`: setup, login, query, and docs-sync command prompts
 - `scripts/`: local Node wrappers around the `yapi` CLI

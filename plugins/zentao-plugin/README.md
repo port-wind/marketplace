@@ -1,6 +1,6 @@
 # zentao-plugin
 
-Cursor plugin for ZenTao workflows inside Cursor.
+Cursor and Claude Code plugin for ZenTao workflows.
 
 It wraps the existing `zentao` CLI so you can work with ZenTao without leaving the editor. The plugin checks whether `zentao` is installed, installs `@leeguoo/zentao-mcp` automatically when needed, reuses your existing `~/.config/zentao/config.toml`, and exposes high-value product and bug workflows as Cursor skills and commands.
 
@@ -25,6 +25,7 @@ It wraps the existing `zentao` CLI so you can work with ZenTao without leaving t
 ## Layout
 
 - `.cursor-plugin/plugin.json`: marketplace metadata
+- `.claude-plugin/plugin.json`: Claude Code plugin metadata
 - `skills/zentao/SKILL.md`: ZenTao routing, command selection, and login guidance
 - `commands/`: setup, login, product, bug, and self-test command prompts
 - `scripts/`: local Node wrappers around the `zentao` CLI

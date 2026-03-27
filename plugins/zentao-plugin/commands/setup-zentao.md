@@ -5,8 +5,7 @@ description: Install or verify the ZenTao CLI and report whether login is requir
 
 # Setup ZenTao
 
-1. Run `node scripts/setup-zentao.mjs`.
-2. Read the returned JSON result.
-3. If the result code is `NOT_LOGGED_IN`, tell the user to run `zentao login`.
-4. If the result code is not `OK`, surface the message, stderr, and next step.
-5. If the result code is `OK`, summarize whether the CLI was auto-installed and whether ZenTao is ready.
+1. Run `command -v zentao >/dev/null || npm install -g @leeguoo/zentao-mcp`.
+2. Run `zentao whoami`.
+3. If `zentao whoami` reports a login or config problem, tell the user to run `zentao login`.
+4. If setup succeeds, summarize that ZenTao is ready and include the current account plus base URL if available.
