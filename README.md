@@ -32,13 +32,14 @@ node scripts/validate-template.mjs
 - `leeguooooo/zentao-plugin`
 - `leeguooooo/curl-crypto-plugin`
 
-When one of those repositories pushes to `main`, it can trigger the marketplace sync workflow. The workflow:
+The marketplace owns synchronization. A scheduled workflow checks the configured source repositories and pulls the latest `main` snapshot when it changes. The workflow:
 
 1. clones the source repository,
 2. syncs it into `plugins/<plugin-name>/`,
-3. excludes generated and private files such as `node_modules`, `dist`, `.astro`, and `vendor/runtime.dat`,
-4. validates the marketplace,
-5. commits and pushes the updated snapshot to `main`.
+3. records the synced source SHA in `plugins/<plugin-name>/.marketplace-sync.json`,
+4. excludes generated and private files such as `node_modules`, `dist`, `.astro`, and `vendor/runtime.dat`,
+5. validates the marketplace,
+6. commits and pushes the updated snapshot to `main`.
 
 Manual fallback:
 
@@ -46,10 +47,6 @@ Manual fallback:
 node scripts/sync-plugin.mjs --repo leeguooooo/yapi-plugin --ref main
 node scripts/validate-template.mjs
 ```
-
-Required secret in each source plugin repository:
-
-- `PORT_WIND_MARKETPLACE_TOKEN`: a token that can call `repository_dispatch` on `port-wind/marketplace`
 
 ## Claude Code
 

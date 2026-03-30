@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import process from 'node:process';
@@ -10,12 +10,13 @@ import { promisify } from 'node:util';
 const execFile = promisify(execFileCallback);
 
 const PLUGIN_REPO_MAP = {
-  'leeguooooo/yapi-plugin': 'yapi-plugin',
-  'leeguooooo/zentao-plugin': 'zentao-plugin',
-  'leeguooooo/curl-crypto-plugin': 'curl-crypto-plugin',
+  'leeguooooo/yapi-plugin': { pluginDir: 'yapi-plugin', ref: 'main' },
+  'leeguooooo/zentao-plugin': { pluginDir: 'zentao-plugin', ref: 'main' },
+  'leeguooooo/curl-crypto-plugin': { pluginDir: 'curl-crypto-plugin', ref: 'main' },
 };
 
 const RSYNC_EXCLUDES = ['.git', 'node_modules', 'dist', '.astro', 'coverage', 'vendor/runtime.dat'];
+const SYNC_STATE_FILENAME = '.marketplace-sync.json';
 
 function parseArgs(argv) {
   const options = {};
@@ -47,6 +48,19 @@ function normalizeRef(ref = '') {
   return ref.replace(/^refs\/heads\//, '').replace(/^refs\/tags\//, '');
 }
 
+function getConfiguredPlugins(selectedRepo = '') {
+  if (selectedRepo) {
+    const entry = PLUGIN_REPO_MAP[selectedRepo];
+    if (!entry) {
+      throw new Error(`No plugin mapping configured for ${selectedRepo}.`);
+    }
+
+    return [[selectedRepo, entry]];
+  }
+
+  return Object.entries(PLUGIN_REPO_MAP);
+}
+
 async function run(command, args, options = {}) {
   const result = await execFile(command, args, {
     encoding: 'utf8',
@@ -60,36 +74,51 @@ async function run(command, args, options = {}) {
   };
 }
 
-async function main() {
-  const args = parseArgs(process.argv.slice(2));
-  const sourceRepo = args.repo;
-  const pluginDir = args.plugin || PLUGIN_REPO_MAP[sourceRepo];
-  const sourceRef = normalizeRef(args.ref);
-  const sourceSha = args.sha || '';
+async function readSyncState(pluginRoot) {
+  try {
+    const raw = await readFile(path.join(pluginRoot, SYNC_STATE_FILENAME), 'utf8');
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
 
-  if (!sourceRepo) {
-    throw new Error('Missing required --repo argument.');
+async function writeSyncState(pluginRoot, state) {
+  await writeFile(path.join(pluginRoot, SYNC_STATE_FILENAME), `${JSON.stringify(state, null, 2)}\n`, 'utf8');
+}
+
+async function getRemoteSha(sourceRepo, sourceRef) {
+  const result = await run('git', ['ls-remote', `https://github.com/${sourceRepo}.git`, `refs/heads/${sourceRef}`]);
+  const [sha] = result.stdout.split(/\s+/, 1);
+
+  if (!sha) {
+    throw new Error(`Unable to resolve ${sourceRepo}@${sourceRef}.`);
   }
 
-  if (!pluginDir) {
-    throw new Error(`No plugin mapping configured for ${sourceRepo}.`);
-  }
+  return sha;
+}
 
-  const workspace = process.cwd();
+async function syncSinglePlugin({ workspace, sourceRepo, pluginDir, sourceRef, force = false }) {
   const targetDir = path.join(workspace, 'plugins', pluginDir);
+  const syncState = await readSyncState(targetDir);
+  const remoteSha = await getRemoteSha(sourceRepo, sourceRef);
+
+  if (!force && syncState?.sourceRepo === sourceRepo && syncState?.sourceRef === sourceRef && syncState?.sourceSha === remoteSha) {
+    return {
+      status: 'skipped',
+      sourceRepo,
+      sourceRef,
+      sourceSha: remoteSha,
+      pluginDir,
+      reason: 'already-synced',
+    };
+  }
+
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'marketplace-sync-'));
   const cloneDir = path.join(tempRoot, 'source');
 
   try {
     await run('git', ['clone', '--depth', '1', '--branch', sourceRef, `https://github.com/${sourceRepo}.git`, cloneDir]);
-
-    if (sourceSha) {
-      const current = await run('git', ['rev-parse', 'HEAD'], { cwd: cloneDir });
-      if (current.stdout !== sourceSha) {
-        await run('git', ['fetch', '--depth', '1', 'origin', sourceSha], { cwd: cloneDir });
-        await run('git', ['checkout', '--detach', 'FETCH_HEAD'], { cwd: cloneDir });
-      }
-    }
 
     const rsyncArgs = ['-a', '--delete'];
     for (const exclude of RSYNC_EXCLUDES) {
@@ -99,30 +128,54 @@ async function main() {
 
     await run('rsync', rsyncArgs);
 
-    const result = {
-      ok: true,
+    await writeSyncState(targetDir, {
       sourceRepo,
       sourceRef,
-      sourceSha,
+      sourceSha: remoteSha,
+      syncedAt: new Date().toISOString(),
+    });
+
+    return {
+      status: 'updated',
+      sourceRepo,
+      sourceRef,
+      sourceSha: remoteSha,
       pluginDir,
       targetDir: path.relative(workspace, targetDir),
     };
-
-    if (process.env.GITHUB_OUTPUT) {
-      const lines = [
-        `plugin_dir=${pluginDir}`,
-        `source_repo=${sourceRepo}`,
-        `source_ref=${sourceRef}`,
-      ];
-      await import('node:fs/promises').then(({ appendFile }) =>
-        appendFile(process.env.GITHUB_OUTPUT, `${lines.join('\n')}\n`, 'utf8')
-      );
-    }
-
-    console.log(JSON.stringify(result, null, 2));
   } finally {
     await rm(tempRoot, { recursive: true, force: true });
   }
+}
+
+async function main() {
+  const args = parseArgs(process.argv.slice(2));
+  const sourceRepo = args.repo || '';
+  const force = args.force === 'true';
+  const configuredPlugins = getConfiguredPlugins(sourceRepo);
+
+  const workspace = process.cwd();
+  const results = [];
+
+  for (const [repoName, entry] of configuredPlugins) {
+    results.push(
+      await syncSinglePlugin({
+        workspace,
+        sourceRepo: repoName,
+        pluginDir: args.plugin || entry.pluginDir,
+        sourceRef: normalizeRef(args.ref || entry.ref),
+        force,
+      })
+    );
+  }
+
+  const summary = {
+    ok: true,
+    updated: results.filter((item) => item.status === 'updated'),
+    skipped: results.filter((item) => item.status === 'skipped'),
+  };
+
+  console.log(JSON.stringify(summary, null, 2));
 }
 
 await main();

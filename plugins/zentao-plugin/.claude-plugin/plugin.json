@@ -1,0 +1,8 @@
+{
+  "name": "zentao-plugin",
+  "description": "Use ZenTao from Claude Code through the local zentao CLI. Install it automatically, reuse existing login state, inspect products and bugs, and run self-test workflows.",
+  "version": "0.1.0",
+  "author": {
+    "name": "leeguooooo"
+  }
+}
