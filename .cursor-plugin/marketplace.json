@@ -24,6 +24,11 @@
       "name": "cunzhi-plugin",
       "source": "cunzhi-plugin",
       "description": "Bring 寸止 into Cursor for setup checks, settings launch, and MCP prompt workflow guidance."
+    },
+    {
+      "name": "curl-crypto-plugin",
+      "source": "curl-crypto-plugin",
+      "description": "Decrypt encrypted curl request parameters and encrypt payloads for test-service calls."
     }
   ]
 }

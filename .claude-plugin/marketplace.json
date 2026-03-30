@@ -24,6 +24,15 @@
         "ref": "main"
       },
       "description": "Use ZenTao from Claude Code through the local zentao CLI."
+    },
+    {
+      "name": "curl-crypto-plugin",
+      "source": {
+        "source": "github",
+        "repo": "leeguooooo/curl-crypto-plugin",
+        "ref": "main"
+      },
+      "description": "Decrypt encrypted curl request parameters and encrypt payloads for test-service calls."
     }
   ]
 }

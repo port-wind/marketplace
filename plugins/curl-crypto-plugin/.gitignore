@@ -1,0 +1,24 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+config.json
+*.local.json
+mimlib.wasm
+vendor/runtime.dat
+
+# Dependencies
+node_modules/
+.astro/
+dist/
+
+# OS and editor
+.DS_Store
+*.swp
+*.swo
+
+# Logs and temp
+*.log
+tmp/
+temp/
+coverage/
