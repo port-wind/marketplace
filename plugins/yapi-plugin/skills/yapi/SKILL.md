@@ -15,8 +15,9 @@ Always use the real `yapi` CLI directly:
 
 1. Check whether `yapi` exists with `command -v yapi`.
 2. If `yapi` is missing and the user wants setup, install `@leeguoo/yapi-mcp` with `npm install -g @leeguoo/yapi-mcp`.
-3. Use direct `yapi ...` commands for query and docs-sync operations.
-4. Only ask the user to run `yapi login` when `whoami` or another command shows a login/config problem.
+3. If the CLI reports `skill update available`, rerun `yapi install-skill --force`.
+4. Use direct `yapi ...` commands for query and docs-sync operations.
+5. Only ask the user to run `yapi login` when `whoami` or another command shows a login/config problem.
 
 ## What the plugin assumes
 
@@ -30,6 +31,7 @@ Always use the real `yapi` CLI directly:
 
 - Verify YApi CLI availability with `command -v yapi`
 - If missing, install with `npm install -g @leeguoo/yapi-mcp`
+- Upgrade with `yapi self-update` when the user explicitly wants the latest CLI
 - Check login state with `yapi whoami`
 - If login is missing, guide the user to run `yapi login`
 - Do not invent a second config format; always reuse `~/.yapi/config.toml`
@@ -39,11 +41,14 @@ Always use the real `yapi` CLI directly:
 - Search interfaces: `yapi search --q <keyword>`
 - Query by ID: `yapi --path /api/interface/get --query id=<api_id>`
 - List category interfaces: `yapi --path /api/interface/list_cat --query catid=<catid>`
+- Combined query string is supported: `yapi --path /api/interface/list_cat --query "catid=4631&limit=50&page=1"`
 - Inspect login state: `yapi whoami`
 
 ### Docs sync
 
 - Bind docs: `yapi docs-sync bind add --name <binding> --dir <path> --project-id <id> --catid <id>`
+- In global `~/.yapi/docs-sync.json` mode, relative `--dir` values are resolved from the current git project root
+- Preview first: `yapi docs-sync --binding <binding> --dry-run`
 - Run sync: `yapi docs-sync --binding <binding>`
 
 ## URL detection

@@ -8,9 +8,13 @@ It wraps the existing `yapi` CLI so you can use YApi without leaving the editor.
 
 - Detect and install `@leeguoo/yapi-mcp` automatically when `yapi` is missing
 - Reuse `~/.yapi/config.toml` and existing `yapi login` state
+- Surface CLI update prompts and support `yapi self-update`
+- Warn when the installed YApi skill snapshot is older than the current CLI
 - Query interfaces by keyword or ID
 - List interfaces under a category
 - Run `docs-sync` commands from Cursor
+- Preview `docs-sync` uploads with `--dry-run` before pushing large Mermaid-heavy docs
+- Accept combined query strings such as `--query "catid=4631&limit=50&page=1"`
 
 ## Why this plugin
 
