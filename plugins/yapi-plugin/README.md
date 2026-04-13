@@ -1,5 +1,11 @@
 # yapi-plugin
 
+> ⚠️ **本仓库已归档**，YApi 相关能力已并入 [leeguooooo/cross-request-master](https://github.com/leeguooooo/cross-request-master)（路径：[`plugins/yapi-plugin/`](https://github.com/leeguooooo/cross-request-master/tree/main/plugins/yapi-plugin)）。
+>
+> 本仓库保留只读历史，便于追溯早期插件实现与 marketplace 适配决策。请以 `cross-request-master` 为唯一维护入口。
+
+---
+
 Cursor and Claude Code plugin for YApi workflows.
 
 It wraps the existing `yapi` CLI so you can use YApi without leaving the editor. The plugin checks whether `yapi` is installed, installs `@leeguoo/yapi-mcp` automatically when needed, reuses your existing `~/.yapi/config.toml`, and exposes the common query and `docs-sync` flows as Cursor skills and commands.
